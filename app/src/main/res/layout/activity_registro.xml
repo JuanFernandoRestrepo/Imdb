@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Back" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="183dp"
+            android:layout_height="63dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/imdb_logo"
+            android:background="@color/yellow_imdb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear una cuenta"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nombre"
+            android:background="@drawable/edittext_background"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textColorHint="#888888"
+            />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Correo electrónico"
+            android:background="@drawable/edittext_background"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:inputType="textEmailAddress"
+            android:text=""
+            android:textColorHint="#888888"
+            android:textColor="@color/black"
+
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp">
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Contraseña"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:inputType="textPassword"
+                android:textColorHint="#888888"
+                android:text=""
+                android:textColor="@color/black"
+                />
+
+            <ImageView
+                android:id="@+id/togglePassword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_visibility_off"
+                android:contentDescription="Mostrar contraseña" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La contraseña debe contener 8 caracteres"
+            android:textSize="12sp"
+            android:textColor="#99121212"
+            android:layout_marginTop="4dp" />
+
+        <Button
+            android:id="@+id/buttonAccept"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Aceptar"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+</ScrollView>
