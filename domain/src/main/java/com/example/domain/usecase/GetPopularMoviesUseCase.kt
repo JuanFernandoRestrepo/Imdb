@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.usecase
+package com.example.domain.usecase
 
 import com.example.domain.model.Movie
 import com.example.domain.repository.MovieRepository

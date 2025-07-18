@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.data.local.dao.MovieDao
 import com.example.data.local.entity.MovieEntity
 import com.example.likeutils.data.Like
 import com.example.likeutils.data.LikeDao
-import com.example.myapplication.data.MovieDao
 import com.example.myapplication.data.User
 import com.example.myapplication.data.UserDao
 import kotlin.jvm.java

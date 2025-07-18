@@ -44,23 +44,24 @@ class HomeFragment : Fragment() {
         reloadTopLikes()
     }
 
-            private fun reloadTopLikes() {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val topLikes = db.likeDao().getTopLikedItems()
-                    val ids = topLikes.map { it.itemId }
+    private fun reloadTopLikes() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val topLikes = db.likeDao().getTopLikedItems()
+            val ids = topLikes.map { it.itemId }
 
-                    val movies = db.movieDao().getLikedMovies(ids)
-                    val movieMap = movies.associateBy { it.id }
+            val movies = db.movieDao().getMoviesByIds(ids)
+            val movieMap = movies.associateBy { it.id }
 
-                    val movieWithLikesList = topLikes.mapNotNull { topLike ->
-                        movieMap[topLike.itemId]?.let { movie ->
-                            MovieWithLikes(movie, topLike.likeCount)
-                        }
-                    }.sortedByDescending { it.likeCount }
-                    adapter.submitList(movieWithLikesList)
+            val movieWithLikesList = topLikes.mapNotNull { topLike ->
+                movieMap[topLike.itemId]?.let { movie ->
+                    MovieWithLikes(movie, topLike.likeCount)
                 }
-            }
+            }.sortedByDescending { it.likeCount }
+            adapter.submitList(movieWithLikesList)
         }
+    }
+
+}
 
 
 

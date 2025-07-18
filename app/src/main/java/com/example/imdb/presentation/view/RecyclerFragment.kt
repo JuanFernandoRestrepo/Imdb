@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.datasources.local.MovieLocalDataSourceImpl
+import com.example.data.datasources.remote.MovieRemoteDataSourceImpl
 import com.example.data.local.AppDatabase
-import com.example.data.remote.ApiInterface
 import com.example.data.remote.ApiServices
 import com.example.data.repository.LikeRepositoryImpl
 import com.example.data.repository.MovieRepositoryImpl
@@ -18,9 +19,14 @@ import com.example.imdb.R
 import com.example.imdb.presentation.adapter.SuperHeroAdapter
 import com.example.imdb.presentation.viewmodel.MovieViewModel
 import com.example.imdb.presentation.viewmodel.MovieViewModelFactory
-import com.example.myapplication.domain.usecase.GetPopularMoviesUseCase
+import com.example.domain.usecase.GetPopularMoviesUseCase
 import kotlinx.coroutines.launch
 import com.example.data.local.SessionManager
+import com.example.data.remote.ApiInterface
+import com.example.data.remote.mapper.MovieMapper
+import com.example.domain.usecase.IsMovieLikedUseCase
+import com.example.domain.usecase.LikeMovieUseCase
+import com.example.domain.usecase.UnlikeMovieUseCase
 
 class RecyclerFragment : Fragment() {
 
@@ -45,20 +51,40 @@ class RecyclerFragment : Fragment() {
         val sessionManager = SessionManager(requireContext())
         userEmail = sessionManager.getUserEmail() ?: ""
 
-        val api = ApiServices.getIntance().create(ApiInterface::class.java)
         val db = AppDatabase.getDatabase(requireContext())
 
-        viewModel = ViewModelProvider(
-            this,
-            MovieViewModelFactory(
-                GetPopularMoviesUseCase(MovieRepositoryImpl(api)),
-                LikeRepositoryImpl(db.likeDao(), db.movieDao())
-            )
-        )[MovieViewModel::class.java]
+        val apiService = ApiServices.getApi().create(ApiInterface::class.java)
+        val remoteDataSource = MovieRemoteDataSourceImpl(apiService)
+
+        val localDataSource = MovieLocalDataSourceImpl(db.likeDao())
+        val mapper = MovieMapper()
+
+        val movieRepository = MovieRepositoryImpl(
+            remoteDataSource = remoteDataSource,
+            localDataSource = localDataSource,
+            mapper = mapper
+        )
+
+        val likeRepository = LikeRepositoryImpl(
+            likeDao = db.likeDao(),
+            movieDao = db.movieDao(),
+            sessionManager = sessionManager
+        )
+
+        val viewModelFactory = MovieViewModelFactory(
+            getPopularMoviesUseCase = GetPopularMoviesUseCase(movieRepository),
+            likeMovieUseCase = LikeMovieUseCase(likeRepository),
+            unlikeMovieUseCase = UnlikeMovieUseCase(likeRepository),
+            isMovieLikedUseCase = IsMovieLikedUseCase(likeRepository)
+        )
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[MovieViewModel::class.java]
+
 
         adapter = SuperHeroAdapter(emptyList(), emptySet()) { movie ->
             viewModel.toggleLike(movie, userEmail)
         }
+
         recyclerView.adapter = adapter
 
         observeData()
@@ -68,6 +94,8 @@ class RecyclerFragment : Fragment() {
             viewModel.loadMovies()
         }
     }
+
+
 
     private fun observeData() {
         lifecycleScope.launch {

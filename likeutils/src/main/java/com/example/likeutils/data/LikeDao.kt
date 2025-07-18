@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.domain.model.TopLikedItem
 
 @Dao
 interface LikeDao {
@@ -29,7 +30,7 @@ interface LikeDao {
     ORDER BY likeCount DESC 
     LIMIT 10
 """)
-    suspend fun getTopLikedItems(): List<TopLike>
+    suspend fun getTopLikedItems(): List<TopLikedItem>
 
     @Query("SELECT COUNT(*) FROM liked_items WHERE itemId = :itemId")
     suspend fun getLikesCountForItem(itemId: Long): Long

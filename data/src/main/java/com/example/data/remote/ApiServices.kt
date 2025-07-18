@@ -10,7 +10,7 @@ class ApiServices {
 
         private var retrofit: Retrofit? = null
 
-        fun getIntance(): Retrofit {
+        fun getApi(): Retrofit {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)

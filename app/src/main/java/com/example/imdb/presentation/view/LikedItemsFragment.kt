@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.local.AppDatabase
+import com.example.data.local.entity.MovieEntity
 import com.example.imdb.presentation.adapter.LikesAdapter
 import kotlinx.coroutines.launch
 
@@ -60,15 +61,15 @@ class LikedItemsFragment : Fragment() {
 
 
             val likedMovies = if (likedIds.isNotEmpty()) {
-                movieDao.getLikedMovies(likedIds)
+                movieDao.getLikedMovieIds(likedIds.toString())
             } else {
                 emptyList()
             }
             likedMovies.forEach {
-                Log.d("LikedFragment", "Movie -> id: ${it.id}, title: ${it.original_title}")
+//                Log.d("LikedFragment", "Movie -> id: ${it.id}, title: ${it.original_title}")
             }
 
-            adapter.submitList(likedMovies)
+            adapter.submitList(likedMovies as List<MovieEntity?>?)
         }
     }
 
