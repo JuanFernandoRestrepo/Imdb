@@ -56,7 +56,7 @@ class RecyclerFragment : Fragment() {
         val apiService = ApiServices.getApi().create(ApiInterface::class.java)
         val remoteDataSource = MovieRemoteDataSourceImpl(apiService)
 
-        val localDataSource = MovieLocalDataSourceImpl(db.likeDao())
+        val localDataSource = MovieLocalDataSourceImpl(db.likeDao(),db.movieDao(),sessionManager)
         val mapper = MovieMapper()
 
         val movieRepository = MovieRepositoryImpl(

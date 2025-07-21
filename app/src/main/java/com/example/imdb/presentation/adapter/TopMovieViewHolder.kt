@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.imdb.R
-import com.example.myapplication.data.MovieWithLikes
+import com.example.domain.model.MovieWithLikes
 
 class TopMovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val title = view.findViewById<TextView>(R.id.textView)
@@ -17,13 +17,13 @@ class TopMovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(movieWithLikes: MovieWithLikes) {
         val movie = movieWithLikes.movie
-        title.text = movie.original_title
-        overview.text = movie.overview
+        title.text = movie.title
+        overview.text = movie.description
         description.text = "ID: ${movie.id}"
         likeCount.text = "${movieWithLikes.likeCount} likes"
 
         Glide.with(poster.context)
-            .load("https://image.tmdb.org/t/p/w500${movie.poster_path}")
+            .load("https://image.tmdb.org/t/p/w500${movie.imageUrl}")
             .into(poster)
     }
 }

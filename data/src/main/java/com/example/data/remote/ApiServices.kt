@@ -19,5 +19,9 @@ class ApiServices {
             }
             return retrofit!!
         }
+        val api: ApiInterface by lazy {
+            getApi().create(ApiInterface::class.java)
+        }
     }
 }
+

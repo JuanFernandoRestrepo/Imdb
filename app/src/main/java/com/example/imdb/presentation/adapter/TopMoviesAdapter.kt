@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.imdb.R
-import com.example.myapplication.data.MovieWithLikes
+import com.example.domain.model.MovieWithLikes
 
 class TopMoviesAdapter : ListAdapter<MovieWithLikes, TopMovieViewHolder>(DiffCallback) {
 
@@ -26,4 +26,3 @@ class TopMoviesAdapter : ListAdapter<MovieWithLikes, TopMovieViewHolder>(DiffCal
             oldItem == newItem
     }
 }
-
